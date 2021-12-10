@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.fire.updateParentId.dao.OrgOrgnizationDao">
+
+
+    <resultMap id="orgOrgnizationResultMap" type="cn.fire.updateParentId.domain.OrgOrganization">
+        <id property="keyid" column="KeyId"/>
+        <result property="parentid" column="Dic_Organization_Parent"/>
+        <result property="ECC_Orga_Code" column="ECC_Orga_Code"/>
+        <collection property="" ofType="" column="" select=""/>
+    </resultMap>
+
+    <!--动态Sql-->
+    <sql id="tableName">
+        mast_org_organization
+    </sql>
+
+    <sql id="tableName2">
+        mast_org_organization_copy2
+    </sql>
+
+    <select id="selectAllKeyIdAndParentId1" resultType="cn.fire.updateParentId.domain.OrgOrganization">
+<!--        SELECT A.KeyId as keyid,B.KeyId as parentid-->
+<!--        FROM-->
+<!--        <include refid="tableName"/>-->
+<!--        A-->
+<!--        join-->
+<!--        <include refid="tableName2"/>-->
+<!--        B-->
+<!--        on A.Dic_Organization_Parent=B.ECC_Orga_Code-->
+
+        SELECT B.KeyId keyid,B.ECC_Orga_Code
+        FROM
+        <include refid="tableName"/>
+        A
+        join
+        <include refid="tableName2"/>
+        B
+        on A.Dic_Organization_Parent=B.ECC_Orga_Code
+
+<!--        SELECT B.KeyId keyid,B.ERP_Orga_Code-->
+<!--        FROM-->
+<!--        <include refid="tableName"/>-->
+<!--        A-->
+<!--        join-->
+<!--        <include refid="tableName2"/>-->
+<!--        B-->
+<!--        on A.Dic_Organization_Parent=B.ERP_Orga_Code-->
+
+<!--        SELECT B.KeyId keyid,B.Vehicle_Orga_Code-->
+<!--        FROM-->
+<!--        <include refid="tableName"/>-->
+<!--        A-->
+<!--        join-->
+<!--        <include refid="tableName2"/>-->
+<!--        B-->
+<!--        on A.Dic_Organization_Parent=B.Vehicle_Orga_Code-->
+
+</select>
+
+    <update id="updateParentIdByKeyId" parameterType="cn.fire.updateParentId.domain.OrgOrganization">
+        update
+        <include refid="tableName"/>
+        set Dic_Organization_Parent = 1
+        where
+        KeyId = #{keyid}
+    </update>
+
+    <!-- 批量更新parentId字段 -->
+    <update id="batchUpdateParentId" parameterType="cn.fire.updateParentId.domain.OrgOrganization">
+
+        update
+        <include refid="tableName"/>
+        set Dic_Organization_Parent =
+        <foreach collection="orgOrganizationList" item="org" open="CASE KeyId" close="END" separator=" ">
+            WHEN #{org.keyid} THEN #{org.parentid}
+        </foreach>
+
+
+    </update>
+
+    <update id="batchUpdateParentId2">
+<!--        update-->
+<!--        <include refid="tableName"/>-->
+<!--        set Dic_Organization_Parent =-->
+<!--        <foreach collection="orgOrganizationList" item="org" open="CASE KeyId" close="END" separator=" ">-->
+<!--            WHEN #{org.keyid} THEN #{org.parentid}-->
+<!--        </foreach>-->
+<!--        where KeyId in-->
+<!--        <foreach collection="ids" item="id" open="(" close=")" separator=",">-->
+<!--          #{id}-->
+<!--        </foreach>-->
+
+        update
+        <include refid="tableName"/>
+        set Dic_Organization_Parent =
+        <foreach collection="orgOrganizationList" item="org" open="CASE Dic_Organization_Parent" close="END" separator=" ">
+            WHEN #{org.ECC_Orga_Code} THEN #{org.keyid}
+        </foreach>
+        where Dic_Organization_Parent in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+
+       <!-- update
+        <include refid="tableName"/>
+        set Dic_Organization_Parent =
+        <foreach collection="orgOrganizationList" item="org" open="CASE Dic_Organization_Parent" close="END" separator=" ">
+            WHEN #{org.ERP_Orga_Code} THEN #{org.keyid}
+        </foreach>
+        where Dic_Organization_Parent in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>-->
+
+<!--        update-->
+<!--        <include refid="tableName"/>-->
+<!--        set Dic_Organization_Parent =-->
+<!--        <foreach collection="orgOrganizationList" item="org" open="CASE Dic_Organization_Parent" close="END" separator=" ">-->
+<!--            WHEN #{org.Vehicle_Orga_Code} THEN #{org.keyid}-->
+<!--        </foreach>-->
+<!--        where Dic_Organization_Parent in-->
+<!--        <foreach collection="ids" item="id" open="(" close=")" separator=",">-->
+<!--            #{id}-->
+<!--        </foreach>-->
+
+    </update>
+
+
+    <insert id="batchInsertOrgOrganizations" keyColumn="keyid" useGeneratedKeys="true">
+        insert into
+        <include refid="tableName"/>
+        values
+        <foreach collection="orgOrganizations" item="orgOrg" separator=",">
+            (
+            #{orgOrg.keyid},
+            #{orgOrg.parentid},
+            #{orgOrg.ECC_Orga_Code}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateById">
+        update
+        <include refid="tableName"/>
+        set Dic_Organization_Parent = 1
+        where
+        KeyId = #{keyid}
+
+    </update>
+
+    <select id="selectTotalNum" resultType="int">
+        select count(KeyId) from
+        <include refid="tableName"/>
+    </select>
+
+
+
+
+</mapper>

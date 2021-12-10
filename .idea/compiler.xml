@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="springboot_elastic_job" />
+        <module name="springboot_async" />
+        <module name="09_layui" />
+        <module name="08_mybatis" />
+        <module name="thread_test" />
+        <module name="elastic_job" />
+        <module name="springboot_validation" />
+        <module name="update-parent-field" />
+        <module name="02_replace_annotaion" />
+        <module name="docker_demo" />
+        <module name="03_aop" />
+        <module name="01_properties" />
+        <module name="springboot_mybatis_plus" />
+        <module name="07_exeptionhander" />
+        <module name="springboot_easyexcel" />
+        <module name="06_startup_init" />
+        <module name="thread-demo" />
+        <module name="springboot_security" />
+        <module name="05_listener" />
+        <module name="04_interceptor" />
+        <module name="springboot_plug" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="demo" target="1.5" />
+      <module name="demo2" target="1.5" />
+      <module name="maven-archiver" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="01_properties" options="-parameters" />
+      <module name="02_replace_annotaion" options="-parameters" />
+      <module name="03_aop" options="-parameters" />
+      <module name="04_interceptor" options="-parameters" />
+      <module name="05_listener" options="-parameters" />
+      <module name="06_startup_init" options="-parameters" />
+      <module name="07_exeptionhander" options="-parameters" />
+      <module name="08_mybatis" options="-parameters" />
+      <module name="09_layui" options="-parameters" />
+      <module name="docker_demo" options="-parameters" />
+      <module name="elastic_job" options="-parameters" />
+      <module name="springboot_async" options="-parameters" />
+      <module name="springboot_easyexcel" options="-parameters" />
+      <module name="springboot_elastic_job" options="-parameters" />
+      <module name="springboot_mybatis_plus" options="-parameters" />
+      <module name="springboot_plug" options="-parameters" />
+      <module name="springboot_security" options="-parameters" />
+      <module name="springboot_validation" options="-parameters" />
+      <module name="update-parent-field" options="-parameters" />
+    </option>
+  </component>
+</project>

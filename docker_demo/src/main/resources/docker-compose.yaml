@@ -1,0 +1,13 @@
+version: v2.1.0
+services:
+  docker_demo:
+    image: tomcat:docker.war.v1
+    container_name: docker_web_1
+    ports:
+    - 8888:8080
+
+  nginx:
+    image: nginx:v2
+    container_name: nginx_1
+    ports:
+    - 81:80

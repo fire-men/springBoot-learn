@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.security.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.example.security.domain.User">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_name, nick_name, address, email, remark, is_delete, create_by, create_time,
+    update_by, update_time, state
+    </sql>
+
+    <!--单条添加-->
+    <insert id="insertUser" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into sys_user
+        (user_name,
+         password,
+         nick_name,
+         address,
+         email,
+         remark,
+         is_delete,
+         create_by,
+         create_time,
+         update_by,
+         update_time,
+         state)
+        values (#{userName},
+                #{password},
+                #{nickName},
+                #{address},
+                #{email},
+                #{remark},
+                #{isDelete},
+                #{createBy},
+                #{createTime},
+                #{updateBy},
+                #{updateTime},
+                #{state})
+    </insert>
+
+    <!--通过username查询用户信息-->
+    <select id="queryUserByUserName" parameterType="String" resultMap="BaseResultMap">
+        select *
+        from sys_user
+        where user_name = #{userName}
+          and is_delete = 0
+    </select>
+
+    <!--通过uid查询用户列表-->
+    <select id="queryRolesByUid" parameterType="Integer" resultType="Role">
+        select c.id,
+               c.role_name as roleName
+        from sys_user_role b
+                 left join sys_role c
+                           on b.role_id = c.id
+        where b.user_id = #{uid}
+    </select>
+
+    <!--通过userId查询所有操作权限列表-->
+    <select id="getOperateList" parameterType="Integer" resultType="Operate">
+        SELECT distinct
+               a.id,
+               a.operate_range AS operateRange
+        FROM sys_operate a
+                 LEFT JOIN sys_role_operate b ON a.id = b.operate_id
+                 LEFT JOIN sys_user_role c ON b.role_id = c.role_id
+        WHERE c.user_id = #{userId}
+    </select>
+
+</mapper>

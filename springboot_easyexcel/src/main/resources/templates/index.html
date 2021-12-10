@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>easyExcel测试</title>
+</head>
+<body>
+
+<div align="center">
+    <h1>文件上传与下载测试-EasyExcell</h1>
+    <hr/>
+    <h3>
+        当前用户列表信息为：
+    </h3>
+<!--    <div>-->
+<!--        <table>-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <td>序号</td>-->
+<!--                <td>姓名</td>-->
+<!--                <td>年龄</td>-->
+<!--                <td>地址</td>-->
+<!--                <td>手机号码</td>-->
+<!--                <td>电子邮箱</td>-->
+<!--            </tr>-->
+<!--            </thead>-->
+
+<!--            <tbody>-->
+<!--            <tr th:each="user,index,${userList}">-->
+<!--                <td th:text="${index.count}">序号</td>-->
+<!--                <td th:text="${user.userName}">序号</td>-->
+<!--                <td th:text="${user.age}">序号</td>-->
+<!--                <td th:text="${user.address}">序号</td>-->
+<!--                <td th:text="${user.iphone}">序号</td>-->
+<!--                <td th:text="${user.email}">xx</td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+
+<!--        </table>-->
+<!--    </div>-->
+
+    <br>
+
+    <div>
+        <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
+            <input type="file" name="file"/><br>
+            <button type="submit">上传文件</button>
+        </form>
+    </div>
+<br>
+<br>
+<!--    <div>-->
+<!--        <form th:action="@{/download}" method="get">-->
+<!--            <button type="submit">下载文件</button>-->
+<!--        </form>-->
+<!--    </div>-->
+
+
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.fire.mybatis.mapper.GoodsMapper">
+
+
+    <resultMap id="goodsResultMap" type="cn.fire.mybatis.model.Goods">
+        <id property="id" column="id"/>
+        <result property="goodsName" column="goods_name"/>
+        <result property="price" column="price"/>
+        <result property="stock" column="stock"/>
+        <result property="isShelf" column="is_shelf"/>
+        <result property="addTime" column="add_time"/>
+    </resultMap>
+
+    <!--动态Sql-->
+    <sql id="tableName">
+        tbl_goods
+    </sql>
+
+    <sql id="setCondition">
+        <set>
+            <if test="goodsName!=null and goodsName!=''">
+                goods_name=#{goodsName},
+            </if>
+            <if test="price!=0">
+                price=#{price},
+            </if>
+            <if test="stock!=0">
+                stock=#{stock},
+            </if>
+            <if test="isShelf==0 or isShelf == 1">
+                is_shelf=#{isShelf},
+            </if>
+            <if test="addTime!=null">
+                add_time=#{addTime}
+            </if>
+        </set>
+    </sql>
+
+    <sql id="insertCondition">
+
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsName!=null and goodsName!=''">
+                goods_name
+            </if>
+            <if test="price!=0">
+                price
+            </if>
+            <if test="stock!=0">
+                stock
+            </if>
+            <if test="isShelf==0 or isShelf == 1">
+                is_shelf
+            </if>
+            <if test="addTime!=null">
+                add_time
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="baseInsertCondition">
+        (
+        goods_name,
+        price,
+        stock,
+        is_shelf,
+        add_time
+        )
+    </sql>
+
+
+    <sql id="insertContext">
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsName!=null and goodsName!=''">
+                #{goodsName}
+            </if>
+            <if test="price!=0">
+                #{price}
+            </if>
+            <if test="stock!=0">
+                #{stock}
+            </if>
+            <if test="isShelf==0 or isShelf == 1">
+                #{isShelf}
+            </if>
+            <if test="addTime!=null">
+                #{addTime}
+            </if>
+        </trim>
+    </sql>
+    <!--动态Sql-->
+
+
+    <update id="updateGoods">
+        update
+        <include refid="tableName"/>
+        <include refid="setCondition"/>
+        where id=#{id}
+    </update>
+
+    <insert id="batchInsertGoods" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+        insert into
+        <include refid="tableName"/>
+        <include refid="baseInsertCondition"/>
+        values
+                <foreach collection="goodsList" item="goods" index="index" separator=",">
+                    (
+                    #{goods.goodsName},
+                    #{goods.price},
+                    #{goods.stock},
+                    #{goods.isShelf},
+                    #{goods.addTime}
+                    )
+                </foreach>
+
+                /*- 报错-*/
+<!--        <foreach collection="goodsList" item="goods" index="index" open="(" close=")" separator=",">-->
+
+<!--            #{goods.goodsName},-->
+<!--            #{goods.price},-->
+<!--            #{goods.stock},-->
+<!--            #{goods.isShelf},-->
+<!--            #{goods.addTime}-->
+<!--            -->
+<!--        </foreach>-->
+
+    </insert>
+
+    <insert id="insertGoods" flushCache="true" keyColumn="id" keyProperty="id"
+            useGeneratedKeys="true" parameterType="cn.fire.mybatis.model.Goods">
+        insert into tbl_goods(id,goods_name,price,stock,is_shelf,add_time)
+        values
+        (
+        #{id},
+        #{goodsName},
+        #{price},
+        #{stock},
+        #{isShelf},
+        #{addTime}
+        )
+    </insert>
+
+
+    <select id="selectGoodsList" resultMap="goodsResultMap" flushCache="false" useCache="true">
+        select * from tbl_goods
+    </select>
+
+    <!-- 开启二级缓存 -->
+    <!--   <cache type="" />-->
+</mapper>

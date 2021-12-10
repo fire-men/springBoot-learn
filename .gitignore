@@ -1,0 +1,4 @@
+# Project exclude paths
+/elastic_job/target/
+/thread-demo/target/
+/thread_test/target/

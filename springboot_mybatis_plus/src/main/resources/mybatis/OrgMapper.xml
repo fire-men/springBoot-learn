@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.fire.mybatisPlus.mapper.OrgMapper">
+
+    <sql id="tableName">
+        mast_org_organization
+    </sql>
+
+    <select id="selectAllKeyIdAndParentId" resultType="cn.fire.mybatisPlus.entity.OrgOrganization">
+        SELECT A.KeyId as keyid,B.KeyId as parentid
+        FROM
+        mast_org_organization
+        A
+        join
+        mast_org_organization
+        B
+        on A.Dic_Organization_Parent=B.ECC_Orga_Code
+
+    </select>
+
+    <update id="batchUpdateParentId2">
+        update
+        <include refid="tableName"/>
+        set Dic_Organization_Parent =
+        <foreach collection="orgOrganizationList" item="org" open="CASE KeyId" close="END" separator=" ">
+            WHEN #{org.keyid} THEN #{org.keyid}
+        </foreach>
+        where KeyId in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            id
+        </foreach>
+
+    </update>
+    
+
+    
+    
+</mapper>
